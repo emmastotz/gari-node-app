@@ -1,0 +1,30 @@
+{
+  "name": "gari-node-app",
+  "version": "1.0.0",
+  "description": "Meet GARI, the Gibberish Analysis and Recognition Interface.",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bandsintown": "^1.0.1",
+    "dotenv": "^8.1.0",
+    "inquirer": "^7.0.0",
+    "moment": "^2.24.0",
+    "node-spotify-api": "^1.1.1",
+    "omdb": "^0.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmastotz/gari-node-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emmastotz/gari-node-app/issues"
+  },
+  "homepage": "https://github.com/emmastotz/gari-node-app#readme"
+}
