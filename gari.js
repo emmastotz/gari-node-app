@@ -3,6 +3,7 @@
 // The Gibberish Analysis and Recognition Interface
 // =====================================================================================
 // INITIALIZATION
+// =====================================================================================
 
 // Requirements
 require("dotenv").config();
@@ -17,8 +18,8 @@ var fs = require("fs");
 var spotify = new Spotify(keys.keys);
 
 // =====================================================================================
-// INQUIRER PROMPT AND SWITCH STATEMENT
-
+// INITIAL INQUIRER PROMPT AND SWITCH STATEMENT
+// =====================================================================================
 inquirer.prompt([
   {
     type: "list",
@@ -47,6 +48,8 @@ inquirer.prompt([
 });
 // =====================================================================================
 // FUNCTIONS
+// =====================================================================================
+// Concert This Function
 function concertThis(item) {
   if (item == ""){
     inquirer.prompt([
@@ -70,20 +73,20 @@ function concertThis(item) {
             console.log("Date: " + date);        
             console.log("-----------------------------------------------------");
           }
-        }
-        else {
-          console.log('No concerts found. Try again.');
+        } else {
+          console.log('No concerts found for this artist. Try again.');
         }  
       })
       .catch(function(error) {
-        console.log(error);
+        // console.log(error);
+        console.log("No artist found. Try again.");
       })
       .finally(function() {
       });
     })
   } else {
+  // =======================================
     var artistQuery = item.replace(/\s/g,'+').toLowerCase();
-
     var userQuery = "https://rest.bandsintown.com/artists/" + artistQuery + "/events?app_id=codingbootcamp";
 
     axios.get(userQuery)
@@ -103,7 +106,8 @@ function concertThis(item) {
     });
   }
 };
-// ===============================================
+// =====================================================================================
+// Spotify This Function
 function spotifyThisSong(item) {
   if (item == ""){
     inquirer.prompt([
@@ -118,6 +122,7 @@ function spotifyThisSong(item) {
 
       spotify.search({type: 'track', query: userQuery}, function(err, data) {
         if (err) {
+          console.log("Song not found.");
           return console.log('Error occurred: ' + err);
         }
         for (var i = 0; i < data.tracks.items.length; i++){
@@ -131,6 +136,7 @@ function spotifyThisSong(item) {
       })
     })
   } else {
+  // =======================================
     var userQuery = item.replace(/\s/g,'+').toLowerCase();
 
     spotify.search({type: 'track', query: userQuery}, function(err, data) {
@@ -148,8 +154,10 @@ function spotifyThisSong(item) {
     })
   }
 };
-// ===============================================
+// =====================================================================================
+// Movie This Function
 function movieThis(item) {
+  console.log(item);
   if (item == ""){
     inquirer.prompt([
       {
@@ -180,11 +188,13 @@ function movieThis(item) {
         }  
       })
       .catch(function(error) {
-        console.log(error);
+        // console.log(error);
+        console.log("Movie not found. Try again.")
       })
       .finally(function() {
       });
     });
+  // =======================================
   } else {
     var movieQuery = item.replace(/\s/g,'+').toLowerCase();
     var userQuery = "http://www.omdbapi.com/?apikey=trilogy&t=" + movieQuery;
@@ -207,9 +217,9 @@ function movieThis(item) {
       }  
     })
   }
-  
 };
-// ===============================================  
+// =====================================================================================
+// Do What It Says Function
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (error) {
