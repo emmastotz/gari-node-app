@@ -65,8 +65,9 @@ function concertThis(item) {
   
       axios.get(userQuery)
       .then(function(response) {
-        if (response.data !== '[]') {
+        if (response.data !== 'False') {
           for (var i = 0; i < response.data.length; i++){
+            console.log("-----------------------------------------------------");
             console.log("Venue: " + response.data[i].venue.name); 
             console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
             var date = moment(response.data[i].datetime).format('MM/DD/YYYY');
@@ -91,16 +92,16 @@ function concertThis(item) {
 
     axios.get(userQuery)
     .then(function(response) {
-      if (response.data !== '[]') {
+      if (response.data !== 'False') {
         for (var i = 0; i < response.data.length; i++){
+          console.log("-----------------------------------------------------");
           console.log("Venue: " + response.data[i].venue.name); 
           console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
           var date = moment(response.data[i].datetime).format('MM/DD/YYYY');
           console.log("Date: " + date);        
           console.log("-----------------------------------------------------");
         }
-      }
-      else {
+      } else {
         console.log('No concerts found. Try again.');
       }
     });
@@ -118,38 +119,41 @@ function spotifyThisSong(item) {
       }
     ])
     .then(function(response){
-    var userQuery = response.song.replace(/\s/g,'+').toLowerCase();
+      var userQuery = response.song.replace(/\s/g,'+').toLowerCase();
 
       spotify.search({type: 'track', query: userQuery}, function(err, data) {
-        if (err) {
-          console.log("Song not found.");
-          return console.log('Error occurred: ' + err);
+        if (data !== data.tracks) {
+          console.log("Song not found. Try again.");
+        } else {
+          for (var i = 0; i < data.tracks.items.length; i++){
+            console.log("-----------------------------------------------------")
+            console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
+            console.log("Song Name: " + data.tracks.items[i].name);
+            console.log("Album Name: " + data.tracks.items[i].album.name);
+            console.log("-----------------------------------------------------")
+            console.log("Link to Spotify: " + data.tracks.items[i].album.href);
+            console.log("-----------------------------------------------------")
+          }
         }
-        for (var i = 0; i < data.tracks.items.length; i++){
-          console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
-          console.log("Song Name: " + data.tracks.items[i].name);
-          console.log("Album Name: " + data.tracks.items[i].album.name);
-          console.log("");
-          console.log("Link to Spotify: " + data.tracks.items[i].album.href);
-          console.log("-----------------------------------------------------")
-        }
-      })
+      }) 
     })
   } else {
   // =======================================
     var userQuery = item.replace(/\s/g,'+').toLowerCase();
 
     spotify.search({type: 'track', query: userQuery}, function(err, data) {
-      if (err) {
-        return console.log('Error occurred: ' + err);
-      }
-      for (var i = 0; i < data.tracks.items.length; i++){
-        console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
-        console.log("Song Name: " + data.tracks.items[i].name);
-        console.log("Album Name: " + data.tracks.items[i].album.name);
-        console.log("");
-        console.log("Link to Spotify: " + data.tracks.items[i].album.href);
-        console.log("-----------------------------------------------------")
+      if (response !== response.data) {
+        console.log("Song not found. Try again.");
+      } else {
+        for (var i = 0; i < data.tracks.items.length; i++){
+          console.log("-----------------------------------------------------");
+          console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
+          console.log("Song Name: " + data.tracks.items[i].name);
+          console.log("Album Name: " + data.tracks.items[i].album.name);
+          console.log("-----------------------------------------------------")
+          console.log("Link to Spotify: " + data.tracks.items[i].album.href);
+          console.log("-----------------------------------------------------")
+        }
       }
     })
   }
@@ -172,8 +176,8 @@ function movieThis(item) {
   
       axios.get(userQuery)
       .then(function(response) { 
-        // console.log(response.data);
         if (response.data.Response !== "False") {
+          console.log("-----------------------------------------------------");
           console.log("Title: " + response.data.Title); 
           console.log("Released: " + response.data.Year);
           console.log("IMDB Rating: " + response.data.Ratings[0].Value);
@@ -188,7 +192,6 @@ function movieThis(item) {
         }  
       })
       .catch(function(error) {
-        // console.log(error);
         console.log("Movie not found. Try again.")
       })
       .finally(function() {
@@ -201,8 +204,8 @@ function movieThis(item) {
 
     axios.get(userQuery)
     .then(function(response) { 
-      // console.log(response.data);
       if (response.data.Response !== "False") {
+        console.log("-----------------------------------------------------");
         console.log("Title: " + response.data.Title); 
         console.log("Released: " + response.data.Year);
         console.log("IMDB Rating: " + response.data.Ratings[0].Value);
