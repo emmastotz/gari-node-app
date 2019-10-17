@@ -4,7 +4,6 @@
 // =====================================================================================
 // INITIALIZATION
 // =====================================================================================
-
 // Requirements
 require("dotenv").config();
 var keys = require("./keys.js");
@@ -16,7 +15,6 @@ var fs = require("fs");
 
 // Key
 var spotify = new Spotify(keys.keys);
-
 // =====================================================================================
 // INITIAL INQUIRER PROMPT AND SWITCH STATEMENT
 // =====================================================================================
@@ -191,8 +189,12 @@ function movieThis(item) {
           console.log("-----------------------------------------------------");
           console.log("Title: " + response.data.Title); 
           console.log("Released: " + response.data.Year);
-          console.log("IMDB Rating: " + response.data.Ratings[0].Value);
-          console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+          if (response.data.Ratings && response.data.Ratings.length){
+            console.log("IMDB Rating: " + response.data.Ratings[0].Value);
+          }
+          if (response.data.Ratings.length >= 2){
+            console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+          }
           console.log("Production Country: " + response.data.Country);
           console.log("Language: " + response.data.Language);
           console.log("Plot: " + response.data.Plot);
@@ -206,7 +208,8 @@ function movieThis(item) {
       })
       .catch(function(error) {
         console.log("-----------------------------------------------------");
-        console.log("Movie not found. Try again.")
+        console.log("ERROR! Movie not found. Try again.")
+        console.log(error);
         console.log("-----------------------------------------------------");
       })
       .finally(function() {
