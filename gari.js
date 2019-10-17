@@ -25,6 +25,7 @@ inquirer.prompt([
     message: "What can I help you with today?",
     choices: ["concert-this", "spotify-this-song", "movie-this", "do-what-it-says"]
   }
+
 ]).then(function(response) {
   switch (response.action) {
     case "concert-this":
@@ -125,8 +126,10 @@ function spotifyThisSong(item) {
       var userQuery = response.song.replace(/\s/g,'+').toLowerCase();
       if (userQuery !== ""){
         spotify.search({type: 'track', query: userQuery}, function(err, data) {
-          if (data !== data.tracks) {
+          if (!data) {
+            console.log("-----------------------------------------------------");
             console.log("Song not found. Try again.");
+            console.log("-----------------------------------------------------");
           } else {
             for (var i = 0; i < data.tracks.items.length; i++){
               console.log("-----------------------------------------------------")
@@ -189,12 +192,8 @@ function movieThis(item) {
           console.log("-----------------------------------------------------");
           console.log("Title: " + response.data.Title); 
           console.log("Released: " + response.data.Year);
-          if (response.data.Ratings && response.data.Ratings.length){
-            console.log("IMDB Rating: " + response.data.Ratings[0].Value);
-          }
-          if (response.data.Ratings.length >= 2){
-            console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
-          }
+          console.log("IMDB Rating: " + response.data.Ratings[0].Value);
+          console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
           console.log("Production Country: " + response.data.Country);
           console.log("Language: " + response.data.Language);
           console.log("Plot: " + response.data.Plot);
@@ -208,8 +207,7 @@ function movieThis(item) {
       })
       .catch(function(error) {
         console.log("-----------------------------------------------------");
-        console.log("ERROR! Movie not found. Try again.")
-        console.log(error);
+        console.log("Movie not found. Try again.")
         console.log("-----------------------------------------------------");
       })
       .finally(function() {
