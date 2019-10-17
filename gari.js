@@ -75,12 +75,15 @@ function concertThis(item) {
             console.log("-----------------------------------------------------");
           }
         } else {
+          console.log("-----------------------------------------------------");
           console.log('No concerts found for this artist. Try again.');
+          console.log("-----------------------------------------------------");
         }  
       })
       .catch(function(error) {
-        // console.log(error);
+        console.log("-----------------------------------------------------");
         console.log("No artist found. Try again.");
+        console.log("-----------------------------------------------------");
       })
       .finally(function() {
       });
@@ -102,7 +105,9 @@ function concertThis(item) {
           console.log("-----------------------------------------------------");
         }
       } else {
+        console.log("-----------------------------------------------------");
         console.log('No concerts found. Try again.');
+        console.log("-----------------------------------------------------");
       }
     });
   }
@@ -120,30 +125,37 @@ function spotifyThisSong(item) {
     ])
     .then(function(response){
       var userQuery = response.song.replace(/\s/g,'+').toLowerCase();
-
-      spotify.search({type: 'track', query: userQuery}, function(err, data) {
-        if (data !== data.tracks) {
-          console.log("Song not found. Try again.");
-        } else {
-          for (var i = 0; i < data.tracks.items.length; i++){
-            console.log("-----------------------------------------------------")
-            console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
-            console.log("Song Name: " + data.tracks.items[i].name);
-            console.log("Album Name: " + data.tracks.items[i].album.name);
-            console.log("-----------------------------------------------------")
-            console.log("Link to Spotify: " + data.tracks.items[i].album.href);
-            console.log("-----------------------------------------------------")
+      if (userQuery !== ""){
+        spotify.search({type: 'track', query: userQuery}, function(err, data) {
+          if (data !== data.tracks) {
+            console.log("Song not found. Try again.");
+          } else {
+            for (var i = 0; i < data.tracks.items.length; i++){
+              console.log("-----------------------------------------------------")
+              console.log("Artist[s]: " + data.tracks.items[i].album.artists[0].name);
+              console.log("Song Name: " + data.tracks.items[i].name);
+              console.log("Album Name: " + data.tracks.items[i].album.name);
+              console.log("-----------------------------------------------------")
+              console.log("Link to Spotify: " + data.tracks.items[i].album.href);
+              console.log("-----------------------------------------------------")
+            }
           }
-        }
-      }) 
+        })
+      } else {
+        console.log("-----------------------------------------------------");
+        console.log("Song not found. Try again.");
+        console.log("-----------------------------------------------------");
+      }
     })
   } else {
   // =======================================
     var userQuery = item.replace(/\s/g,'+').toLowerCase();
 
     spotify.search({type: 'track', query: userQuery}, function(err, data) {
-      if (response !== response.data) {
+      if (data !== data.tracks) {
+        console.log("-----------------------------------------------------");
         console.log("Song not found. Try again.");
+        console.log("-----------------------------------------------------");
       } else {
         for (var i = 0; i < data.tracks.items.length; i++){
           console.log("-----------------------------------------------------");
@@ -161,7 +173,6 @@ function spotifyThisSong(item) {
 // =====================================================================================
 // Movie This Function
 function movieThis(item) {
-  console.log(item);
   if (item == ""){
     inquirer.prompt([
       {
@@ -188,11 +199,15 @@ function movieThis(item) {
           console.log("Actors: " + response.data.Actors);
           console.log("-----------------------------------------------------")
         } else {
+          console.log("-----------------------------------------------------");
           console.log('Movie not found. Try again.');
+          console.log("-----------------------------------------------------");
         }  
       })
       .catch(function(error) {
+        console.log("-----------------------------------------------------");
         console.log("Movie not found. Try again.")
+        console.log("-----------------------------------------------------");
       })
       .finally(function() {
       });
@@ -216,7 +231,9 @@ function movieThis(item) {
         console.log("Actors: " + response.data.Actors);
         console.log("-----------------------------------------------------")
       } else {
+        console.log("-----------------------------------------------------");
         console.log('Movie not found. Try again.');
+        console.log("-----------------------------------------------------");
       }  
     })
   }
@@ -226,7 +243,9 @@ function movieThis(item) {
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (error) {
+      console.log("-----------------------------------------------------");
       return console.log(error);
+      console.log("-----------------------------------------------------");
     }
 
     console.log(data);
